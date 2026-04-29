@@ -4,6 +4,7 @@ import express from "express";
 import type { Express, Request, Response } from "express";
 import cors from "cors";
 import { handleUserSignUp } from "./modules/users/controllers/user.controller.js";
+import { handleCreateStore } from "./modules/stores/controllers/store.controller.js";
 
 // 1. 환경 변수 설정
 dotenv.config();
@@ -23,6 +24,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/api/v1/users/signup", handleUserSignUp);
+app.post("/api/v1/store", handleCreateStore)
 
 // 4. 서버 시작
 app.listen(port, () => {
