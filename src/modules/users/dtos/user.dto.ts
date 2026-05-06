@@ -35,34 +35,17 @@ export interface UserPreference {
 }
 
 export interface UserSignUpResponse {
-  id: number;
   email: string;
   name: string;
-  gender: string;
-  birth: Date;
-  address: string;
-  detailAddress: string;
-  phoneNumber: string;
-  preferences: UserPreference[];
+  preferCategory: UserPreference[];
 }
+export const responseFromUser= (data: {user:any, preferences: any[]}): UserSignUpResponse => {
+    const perferCategory= data.preferences.map((p)=>p.foodCategory.name);
 
-export const responseFromUser = ({user, preferences,}: {
-  user: any;
-  preferences: any[];
-}): UserSignUpResponse => {
-  return {
-    id: user.user_id,
-    email: user.email,
-    name: user.name,
-    gender: user.gender,
-    birth: user.birth,
-    address: user.address,
-    detailAddress: user.detail_address, // DB 컬럼명 → camelCase 변환
-    phoneNumber: user.phone_number,     // DB 컬럼명 → camelCase 변환
-    preferences: preferences.map((pref) => ({
-      id: pref.id,
-      foodCategoryId: pref.food_category_id, // DB 컬럼명 → camelCase 변환
-      name: pref.name,
-    })),
-  };
-};
+    return {
+        email: data.user.email,
+        name: data.user.name,
+        preferCategory: perferCategory,
+    }
+
+}
