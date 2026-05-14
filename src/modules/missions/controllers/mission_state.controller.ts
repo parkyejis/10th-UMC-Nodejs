@@ -1,70 +1,42 @@
-import type { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { bodyToMissionState } from "../dtos/mission_state.dto.js";
+import { Controller, Post, Get, Patch, Body, Route, Tags, SuccessResponse, Path, Query } from "tsoa";
+import { bodyToMissionState,  MissionStateCreateRequest,  MissionStateCreateResponse,  UserMissionListResponse, MissionStateUpdateResponse } from "../dtos/mission_state.dto.js";
 import { challengeMission, listUserMissions, changeMissionState } from "../services/mission_state.service.js";
 
-export const handleChallengeMission = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("미션 도전을 요청했습니다!");
-  console.log("body:", req.body);
+@Route("missions")
+@Tags("미션 상태")
+export class MissionStateController extends Controller {
 
-  try {
-    const missionState = await challengeMission(bodyToMissionState(req.body));
-    res.status(StatusCodes.OK).json({ result: missionState });
-  } catch (err: any) {
-    if (err.message === "없는 미션입니다.") {
-      res.status(StatusCodes.NOT_FOUND).json({ error: err.message });
-      return;
-    }
-    if (err.message === "이미 도전 중인 미션입니다.") {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: err.message });
-      return;
-    }
-    next(err);
+  @Post("")
+  @SuccessResponse(200, "미션 도전 성공")
+  public async challengeMission(
+    @Body() body: MissionStateCreateRequest
+  ): Promise<MissionStateCreateResponse> {
+    console.log("미션 도전을 요청했습니다!");
+    console.log("body:", body);
+
+    return await challengeMission(bodyToMissionState(body));
   }
-};
 
-export const handleListUserMissions = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const userId = parseInt(req.params.userId as string);
-    const cursor = req.query.cursor
-      ? parseInt(req.query.cursor as string)
-      : undefined;
-
-    const missions = await listUserMissions({ userId, cursor });
-    res.status(StatusCodes.OK).json({ result: missions });
-  } catch (err) {
-    next(err);
+  @Patch("{missionId}")
+  @SuccessResponse(200, "미션 상태 변경 성공")
+  public async changeMissionState(
+    @Path() missionId: number,
+    @Body() body: { userId: number }
+  ): Promise<MissionStateUpdateResponse> {
+    return await changeMissionState(missionId, body.userId);
   }
-};
+}
 
-export const handleChangeMissionState = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const missionId = parseInt(req.params.missionId as string);
-    const userId = parseInt(req.body.userId);
+@Route("users")
+@Tags("유저 미션")
+export class UserMissionController extends Controller {
 
-    const missionState = await changeMissionState(missionId, userId);
-    res.status(StatusCodes.OK).json({ result: missionState });
-  } catch (err: any) {
-    if (err.message === "없는 미션입니다.") {
-      res.status(StatusCodes.NOT_FOUND).json({ error: err.message });
-      return;
-    }
-    if (err.message === "도전 중인 미션이 아닙니다.") {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: err.message });
-      return;
-    }
-    next(err);
+  @Get("{userId}/mission")
+  @SuccessResponse(200, "유저 미션 목록 조회 성공")
+  public async listUserMissions(
+    @Path() userId: number,
+    @Query() cursor?: number
+  ): Promise<UserMissionListResponse> {
+    return await listUserMissions({ userId, cursor });
   }
-};
+}

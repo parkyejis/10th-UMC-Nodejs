@@ -39,6 +39,8 @@ export interface UserSignUpResponse {
   name: string;
   preferCategory: UserPreference[];
 }
+
+
 export const responseFromUser= (data: {user:any, preferences: any[]}): UserSignUpResponse => {
     const perferCategory= data.preferences.map((p)=>p.foodCategory.name);
 

@@ -1,4 +1,4 @@
-import { UserSignUpRequest } from "../dtos/user.dto.js"; //인터페이스 가져오기 
+import { UserSignUpRequest, UserSignUpResponse } from "../dtos/user.dto.js"; //인터페이스 가져오기 
 import { responseFromUser } from "../dtos/user.dto.js";
 import {
   addUser,
@@ -7,7 +7,7 @@ import {
   setPreference,
 } from "../repositories/user.repository.js";
 
-export const userSignUp = async (data: UserSignUpRequest) => {
+export const userSignUp = async (data: UserSignUpRequest): Promise<UserSignUpResponse> => {
   const joinUserId = await addUser({
     email: data.email,
     name: data.name,

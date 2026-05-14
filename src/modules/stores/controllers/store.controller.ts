@@ -1,18 +1,22 @@
 import express from "express";
+import { Controller, Post, Body, Route, Tags, SuccessResponse } from "tsoa";
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { bodyToStore, type StoreCreateRequest } from "../dtos/store.dto.js";
+import { bodyToStore, type StoreCreateRequest, StoreCreateResponse } from "../dtos/store.dto.js";
 import { createStore } from "../services/store.service.js";
 
-export const handleCreateStore = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("가게 추가를 요청했습니다!");
-  console.log("body:", req.body);
+@Route("stores")
+@Tags("가게")
+export class StoreController extends Controller {
 
-  const store = await createStore(bodyToStore(req.body as StoreCreateRequest));
+  @Post("")
+  @SuccessResponse(200, "가게 추가 성공")
+  public async createStore(
+    @Body() body: StoreCreateRequest
+  ): Promise<StoreCreateResponse> {
+    console.log("가게 추가를 요청했습니다!");
+    console.log("body:", body);
 
-  res.status(StatusCodes.OK).json({ result: store });
-};
+    return await createStore(bodyToStore(body));
+  }
+}

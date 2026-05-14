@@ -1,62 +1,42 @@
-import type { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { bodyToReview } from "../dtos/review.dto.js";
+import { Controller, Post, Get, Body, Route, Tags, SuccessResponse, Path, Query } from "tsoa";
+import { bodyToReview, UserReviewListResponse, type ReviewCreateRequest, type ReviewCreateResponse, type ReviewListResponse } from "../dtos/review.dto.js";
 import { createReview, listStoreReviews, listUserReviews } from "../services/review.service.js";
 
-export const handleCreateReview = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("리뷰 추가를 요청했습니다!");
-  console.log("body:", req.body);
+@Route("stores")
+@Tags("리뷰")
+export class ReviewController extends Controller {
 
-  try {
-    const review = await createReview(bodyToReview(req.body));
-    res.status(StatusCodes.OK).json({ result: review });
-  } catch (err: any) {
-    if (err.message === "없는 가게입니다.") {
-      res.status(StatusCodes.NOT_FOUND).json({ error: err.message });
-      return;
-    }
-    next(err);
+  @Post("{storeId}/reviews")
+  @SuccessResponse(200, "리뷰 추가 성공")
+  public async createReview(
+    @Body() body: ReviewCreateRequest
+  ): Promise<ReviewCreateResponse> {
+    console.log("리뷰 추가를 요청했습니다!");
+    console.log("body:", body);
+
+    return await createReview(bodyToReview(body));
   }
-};
 
-
-export const handleListStoreReviews = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const storeId = parseInt(req.params.storeId as string);
-    const cursor = req.query.cursor
-      ? parseInt(req.query.cursor as string)
-      : undefined;
-
-    const reviews = await listStoreReviews({ storeId, cursor });
-    res.status(StatusCodes.OK).json({ result: reviews });
-  } catch (err) {
-    next(err);
+  @Get("{storeId}/reviews")
+  @SuccessResponse(200, "가게 리뷰 목록 조회 성공")
+  public async listStoreReviews(
+    @Path() storeId: number,
+    @Query() cursor?: number
+  ): Promise<ReviewListResponse> {
+    return await listStoreReviews({ storeId, cursor });
   }
-};
+}
 
+@Route("users")
+@Tags("유저 리뷰")
+export class UserReviewController extends Controller {
 
-export const handleListUserReviews = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const userId = parseInt(req.params.userId as string);
-    const cursor = req.query.cursor
-      ? parseInt(req.query.cursor as string)
-      : undefined;
-
-    const reviews = await listUserReviews({ userId, cursor });
-    res.status(StatusCodes.OK).json({ result: reviews });
-  } catch (err) {
-    next(err);
+  @Get("{userId}/reviews")
+  @SuccessResponse(200, "유저 리뷰 목록 조회 성공")
+  public async listUserReviews(
+    @Path() userId: number,
+    @Query() cursor?: number
+  ): Promise<UserReviewListResponse> {
+    return await listUserReviews({ userId, cursor });
   }
-};
+}
