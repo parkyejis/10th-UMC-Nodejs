@@ -6,6 +6,7 @@ import {
   getMission,
   getStoreAllMissions
 } from "../repositories/mission.repository.js";
+import { DuplicateUserEmailError } from "../../../common/error/error.js";
 
 export const createMission = async (data: {
   detail: string;
@@ -14,7 +15,7 @@ export const createMission = async (data: {
 }) => {
   const store = await getStoreByName(data.storeName);
   if (store === null) {
-    throw new Error("없는 가게입니다.");
+    throw new DuplicateUserEmailError("존재하지 않는 가게입니다.", data.storeName);
   }
 
   const mission = await prisma.$transaction(async (tx) => {

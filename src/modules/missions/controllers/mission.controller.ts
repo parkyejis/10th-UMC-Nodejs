@@ -1,42 +1,30 @@
-import type { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { bodyToMission } from "../dtos/mission.dto.js";
+import { Controller, Post, Get, Body, Route, Tags, SuccessResponse, Path, Query } from "tsoa";
+import { bodyToMission, type MissionCreateRequest, type MissionCreateResponse, type MissionListResponse } from "../dtos/mission.dto.js";
 import { createMission, listStoreMissions } from "../services/mission.service.js";
+import { ApiResponse, success } from "../../../common/response/response.js";
 
-export const handleCreateMission = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("미션 추가를 요청했습니다!");
-  console.log("body:", req.body);
+@Route("stores")
+@Tags("미션")
+export class MissionController extends Controller {
 
-  try {
-    const mission = await createMission(bodyToMission(req.body));
-    res.status(StatusCodes.OK).json({ result: mission });
-  } catch (err: any) {
-    if (err.message === "없는 가게입니다.") {
-      res.status(StatusCodes.NOT_FOUND).json({ error: err.message });
-      return;
-    }
-    next(err);
+  @Post("{storeId}/mission")
+  public async createMission(
+    @Path() storeId: number,
+    @Body() body: MissionCreateRequest
+  ): Promise<ApiResponse<MissionCreateResponse>> {
+    console.log("미션 추가를 요청했습니다!");
+    console.log("body:", body);
+
+    const mission = await createMission(bodyToMission(body));
+    return success(mission)
   }
-};
 
-export const handleListStoreMissions = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const storeId = parseInt(req.params.storeId as string);
-    const cursor = req.query.cursor
-      ? parseInt(req.query.cursor as string)
-      : undefined;
-
-    const missions = await listStoreMissions({ storeId, cursor });
-    res.status(StatusCodes.OK).json({ result: missions });
-  } catch (err) {
-    next(err);
+  @Get("{storeId}/mission")
+  public async listStoreMissions(
+    @Path() storeId: number,
+    @Query() cursor?: number
+  ): Promise<ApiResponse<MissionListResponse>> {
+    const list = await listStoreMissions({ storeId, cursor });
+    return success(list)
   }
-};
+}

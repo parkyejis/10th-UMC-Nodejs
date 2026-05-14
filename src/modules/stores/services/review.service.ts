@@ -1,5 +1,6 @@
 import { prisma } from "../../../db.config.js";
 import { responseFromReview, responseAllFromReview, responseFromUserReviews } from "../dtos/review.dto.js";
+import { DuplicateUserEmailError } from "../../../common/error/error.js";
 import {
   getStoreByName,
   addReview,
@@ -7,6 +8,8 @@ import {
   getAllStoreReviews,
   getUserAllReviews
 } from "../repositories/review.repository.js";
+import { getStore } from "../repositories/store.repository.js"
+import { getUser } from "../../users/repositories/user.repository.js"
 
 // 리뷰 생성
 export const createReview = async (data: {
@@ -18,7 +21,7 @@ export const createReview = async (data: {
 }) => {
   const store = await getStoreByName(data.storeName);
   if (store === null) {
-    throw new Error("없는 가게입니다.");
+    throw new DuplicateUserEmailError("없는 가게 입니다.", data);
   }
 
   const review = await prisma.$transaction(async (tx) => {
@@ -46,7 +49,12 @@ export const listStoreReviews = async ({
   storeId: number;
   cursor?: number;
 }) => {
-  const reviews = await getAllStoreReviews({
+  const store = await getStore(BigInt(storeId));
+  if (store === null) {
+    throw new DuplicateUserEmailError("없는 가게 입니다.", storeId);
+  }
+
+  const reviews = await getAllStoreReviews({  
     storeId: BigInt(storeId),
     cursor,
     take: 5,
@@ -64,6 +72,11 @@ export const listUserReviews = async ({
   userId: number;
   cursor?: number;
 }) => {
+  const user = await getUser(userId)
+  if (user === null) {
+    throw new DuplicateUserEmailError("없는 회원 입니다.", userId);
+  }
+
   const reviews = await getUserAllReviews({ userId, cursor, take: 5 });
   return responseFromUserReviews(reviews);
 };

@@ -9,6 +9,7 @@ import {
   updateMissionState,
   getMissionStateByMissionId
 } from "../repositories/mission_state.repository.js";
+import { DuplicateUserEmailError } from "../../../common/error/error.js";
 
 export const challengeMission = async (data: {
   userId: number;
@@ -17,13 +18,13 @@ export const challengeMission = async (data: {
   // 미션 존재 여부 검증
   const mission = await getMissionById(BigInt(data.missionId));
   if (mission === null) {
-    throw new Error("없는 미션입니다.");
+    throw new DuplicateUserEmailError("없는 미션 입니다.", data.missionId);
   }
 
   // 이미 도전 중인지 검증
   const challenging = await getChallengingMission(data.userId, BigInt(data.missionId));
   if (challenging !== null) {
-    throw new Error("이미 도전 중인 미션입니다.");
+    throw new DuplicateUserEmailError("이미 도전중인 미션 입니다.", data.missionId);
   }
 
   // 미션 도전 추가
@@ -54,13 +55,13 @@ export const changeMissionState = async (missionId: number, userId: number) => {
   // 미션 존재 여부 검증
   const mission = await getMissionById(BigInt(missionId));
   if (mission === null) {
-    throw new Error("없는 미션입니다.");
+    throw new DuplicateUserEmailError("없는 미션 입니다.",missionId);
   }
 
   // 도전 중인 미션인지 검증
   const challenging = await getChallengingMission(userId, BigInt(missionId));
   if (challenging === null) {
-    throw new Error("도전 중인 미션이 아닙니다.");
+    throw new DuplicateUserEmailError("이미 도전중인 미션 입니다.", missionId);
   }
 
   // 진행완료로 변경
