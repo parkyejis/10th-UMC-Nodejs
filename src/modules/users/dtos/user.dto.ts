@@ -1,5 +1,6 @@
 // 1. 회원가입 요청 데이터의 설계도를 만듭니다.
 export interface UserSignUpRequest {
+  /** 유저 이메일 (로그인 시 사용) */
   email: string;
   name: string;
   gender: string;

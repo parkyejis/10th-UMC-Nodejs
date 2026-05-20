@@ -9,5 +9,10 @@
   "routes": {
     "routesDir": "src/generated",
     "esm": true
+  },
+  "spec": {
+      "outputDirectory": "dist",
+      "specVersion": 3,
+      "basePath": "/api/v1" 
   }
 }

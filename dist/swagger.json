@@ -83,7 +83,8 @@
 			"UserSignUpRequest": {
 				"properties": {
 					"email": {
-						"type": "string"
+						"type": "string",
+						"description": "유저 이메일 (로그인 시 사용)"
 					},
 					"name": {
 						"type": "string"
@@ -1275,7 +1276,7 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "/api/v1"
 		}
 	]
 }

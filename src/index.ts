@@ -8,6 +8,11 @@ import cors from "cors";
 import { RegisterRoutes } from "./generated/routes.js";
 import { AppError } from "./common/error/app.error.js";
 
+import swaggerUi from "swagger-ui-express";
+// ESM 환경에서는 JSON 파일을 가져올 때 아래와 같이 처리합니다.
+import path from "path";
+import fs from "fs";
+
 // 1. 환경 변수 설정
 dotenv.config();
 
@@ -25,11 +30,26 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 
+// 1. TSOA가 생성한 swagger.json 읽어오기
+const swaggerFile = JSON.parse(
+  fs.readFileSync(path.resolve("dist/swagger.json"), "utf8")
+);
+
+// 2. Swagger UI 연결
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 // 2. 미들웨어 설정
-app.use(cors());            // cors 방식 허용                 
+app.use(cors({
+  //1. origin을 * 대신 정확한 주소 사용 
+    origin: ["http://127.0.0.1:5500", "http://localhost:3000"], 
+
+    // 2. 쿠키를 허용하는 credentials 옵션 켜기
+    credentials: true, 
+}));            // cors 방식 허용                 
 app.use(express.static('public'));    // 정적 파일 접근      
 app.use(express.json());              // request의 본문을 json으로 해석할 수 있도록 함(JSON 형태의 요청 body를 파싱하기 위함)     
 app.use(express.urlencoded({ extended: false })); // 단순 객체 문자열 형태로 본문 데이터 해석
+
 
 // 3. 기본 라우트
 app.get("/", (req: Request, res: Response) => {
