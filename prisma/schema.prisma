@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// 회원 
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique(map: "email") @db.VarChar(255)
+  name          String   @db.VarChar(100)
+  gender        String   @db.VarChar(15)
+  birth         DateTime @db.Date
+  address       String   @db.VarChar(255)
+  detailAddress String?  @map("detail_address") @db.VarChar(255)
+  phoneNumber   String   @map("phone_number") @db.VarChar(15)
+  password      String?  @db.VarChar(255)
+
+  userFavorCategories UserFavorCategory[]
+  reviews             Review[]        
+  missionStates       MissionState[]  
+
+  @@map("user")
+}
+
+// 음식 카테고리 
+model FoodCategory {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+
+  userFavorCategories UserFavorCategory[]
+
+  @@map("food_category")
+}
+
+// 유저 선호 카테고리
+model UserFavorCategory {
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int          @map("user_id")
+  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
+  foodCategoryId Int          @map("food_category_id")
+
+  @@index([foodCategoryId], map: "f_category_id")
+  @@index([userId], map: "user_id")
+  @@map("user_favor_category")
+}
+
+// 지역
+model Local {
+  localId   BigInt  @id @default(autoincrement()) @map("local_id")
+  localName String  @db.VarChar(50) @map("local_name")
+
+  stores Store[]
+
+  @@map("local")
+}
+
+// 가게
+model Store {
+  storeId   BigInt  @id @default(autoincrement()) @map("store_id")
+  name      String  @db.VarChar(25)
+  category  String  @db.VarChar(10)
+  startTime String  @db.VarChar(25) @map("start_time")
+  endTime   String  @db.VarChar(25) @map("end_time")
+  rating    Float   @default(0.0)
+  localId   BigInt  @map("local_id")
+
+  local        Local          @relation(fields: [localId], references: [localId])
+  reviews      Review[]
+  missions     Mission[]
+
+  @@index([name], map: "idx_store_name")
+  @@map("store")
+}
+
+// 리뷰
+model Review {
+  reviewId  BigInt   @id @default(autoincrement()) @map("review_id")
+  content   String   @db.VarChar(225)
+  img       String?  @db.VarChar(100)
+  countStar String   @map("count_star") @db.VarChar(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    Int      @map("user_id")
+  storeId   BigInt   @map("store_id")
+
+  user  User  @relation(fields: [userId], references: [id])   // userId → id
+  store Store @relation(fields: [storeId], references: [storeId])
+
+  @@map("review")
+}
+
+// 미션
+model Mission {
+  missionId BigInt  @id @default(autoincrement()) @map("mission_id")
+  detail    String  @db.VarChar(225)
+  point     BigInt
+  storeId   BigInt  @map("store_id")
+
+  store         Store          @relation(fields: [storeId], references: [storeId])
+  missionStates MissionState[]
+
+  @@map("mission")
+}
+
+// 미션 상태
+model MissionState {
+  stateId   BigInt  @id @default(autoincrement()) @map("state_id")
+  userId    Int     @map("user_id")
+  missionId BigInt  @map("mission_id")
+  state     String  @default("도전중") @db.VarChar(10)
+
+  user    User    @relation(fields: [userId], references: [id])   // userId → id
+  mission Mission @relation(fields: [missionId], references: [missionId])
+
+  @@map("mission_state")
+}

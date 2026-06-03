@@ -1,0 +1,1281 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"UserPreference": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"foodCategoryId": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"foodCategoryId",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserSignUpResponse": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"preferCategory": {
+						"items": {
+							"$ref": "#/components/schemas/UserPreference"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"preferCategory"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_UserSignUpResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/UserSignUpResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserSignUpRequest": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"birth": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"address": {
+						"type": "string"
+					},
+					"detailAddress": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"preferences": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"email",
+					"name",
+					"gender",
+					"birth",
+					"phoneNumber",
+					"preferences"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"StoreCreateResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"startTime": {
+						"type": "string"
+					},
+					"endTime": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"localId": {
+						"type": "number",
+						"format": "double"
+					},
+					"localName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"category",
+					"startTime",
+					"endTime",
+					"rating",
+					"localId",
+					"localName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_StoreCreateResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/StoreCreateResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"StoreCreateRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"startTime": {
+						"type": "string"
+					},
+					"endTime": {
+						"type": "string"
+					},
+					"localName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"category",
+					"startTime",
+					"endTime",
+					"localName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewCreateResponse": {
+				"properties": {
+					"reviewId": {
+						"type": "number",
+						"format": "double"
+					},
+					"content": {
+						"type": "string"
+					},
+					"img": {
+						"type": "string",
+						"nullable": true
+					},
+					"countStar": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"reviewId",
+					"content",
+					"img",
+					"countStar",
+					"userId",
+					"storeId",
+					"storeName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_ReviewCreateResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/ReviewCreateResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewCreateRequest": {
+				"properties": {
+					"content": {
+						"type": "string"
+					},
+					"img": {
+						"type": "string"
+					},
+					"countStar": {
+						"type": "string",
+						"enum": [
+							"1",
+							"2",
+							"3",
+							"4",
+							"5"
+						]
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"content",
+					"countStar",
+					"userId",
+					"storeName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_ReviewItem.Exclude_keyofReviewItem.cursor__": {
+				"properties": {
+					"nickname": {
+						"type": "string"
+					},
+					"countStar": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nickname",
+					"countStar",
+					"createdAt",
+					"content"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_ReviewItem.cursor_": {
+				"$ref": "#/components/schemas/Pick_ReviewItem.Exclude_keyofReviewItem.cursor__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"ReviewListResponse": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/Omit_ReviewItem.cursor_"
+						},
+						"type": "array"
+					},
+					"pagination": {
+						"properties": {
+							"cursor": {
+								"type": "number",
+								"format": "double",
+								"nullable": true
+							}
+						},
+						"required": [
+							"cursor"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"pagination"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_ReviewListResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/ReviewListResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_UserReviewItem.Exclude_keyofUserReviewItem.cursor__": {
+				"properties": {
+					"countStar": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"content": {
+						"type": "string"
+					},
+					"storeName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"countStar",
+					"createdAt",
+					"content",
+					"storeName"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_UserReviewItem.cursor_": {
+				"$ref": "#/components/schemas/Pick_UserReviewItem.Exclude_keyofUserReviewItem.cursor__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UserReviewListResponse": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/Omit_UserReviewItem.cursor_"
+						},
+						"type": "array"
+					},
+					"pagination": {
+						"properties": {
+							"cursor": {
+								"type": "number",
+								"format": "double",
+								"nullable": true
+							}
+						},
+						"required": [
+							"cursor"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"pagination"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_UserReviewListResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/UserReviewListResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionStateCreateResponse": {
+				"properties": {
+					"stateId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionDetail": {
+						"type": "string"
+					},
+					"point": {
+						"type": "number",
+						"format": "double"
+					},
+					"state": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"stateId",
+					"userId",
+					"missionId",
+					"missionDetail",
+					"point",
+					"state"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_MissionStateCreateResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/MissionStateCreateResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionStateCreateRequest": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"userId",
+					"missionId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionStateUpdateResponse": {
+				"properties": {
+					"stateId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"state": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"stateId",
+					"missionId",
+					"userId",
+					"state"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_MissionStateUpdateResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/MissionStateUpdateResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_UserMissionItem.Exclude_keyofUserMissionItem.cursor__": {
+				"properties": {
+					"storeName": {
+						"type": "string"
+					},
+					"missionDetail": {
+						"type": "string"
+					},
+					"point": {
+						"type": "number",
+						"format": "double"
+					},
+					"state": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"storeName",
+					"missionDetail",
+					"point",
+					"state"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_UserMissionItem.cursor_": {
+				"$ref": "#/components/schemas/Pick_UserMissionItem.Exclude_keyofUserMissionItem.cursor__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UserMissionListResponse": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/Omit_UserMissionItem.cursor_"
+						},
+						"type": "array"
+					},
+					"pagination": {
+						"properties": {
+							"cursor": {
+								"type": "number",
+								"format": "double",
+								"nullable": true
+							}
+						},
+						"required": [
+							"cursor"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"pagination"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_UserMissionListResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/UserMissionListResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionCreateResponse": {
+				"properties": {
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"detail": {
+						"type": "string"
+					},
+					"point": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"missionId",
+					"detail",
+					"point",
+					"storeId",
+					"storeName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_MissionCreateResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/MissionCreateResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionCreateRequest": {
+				"properties": {
+					"detail": {
+						"type": "string"
+					},
+					"point": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"detail",
+					"point",
+					"storeName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_MissionItem.Exclude_keyofMissionItem.cursor__": {
+				"properties": {
+					"missionDetail": {
+						"type": "string"
+					},
+					"point": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"missionDetail",
+					"point"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_MissionItem.cursor_": {
+				"$ref": "#/components/schemas/Pick_MissionItem.Exclude_keyofMissionItem.cursor__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"MissionListResponse": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/Omit_MissionItem.cursor_"
+						},
+						"type": "array"
+					},
+					"pagination": {
+						"properties": {
+							"cursor": {
+								"type": "number",
+								"format": "double",
+								"nullable": true
+							}
+						},
+						"required": [
+							"cursor"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"pagination"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_MissionListResponse_": {
+				"properties": {
+					"resultType": {
+						"type": "string",
+						"enum": [
+							"SUCCESS"
+						],
+						"nullable": false
+					},
+					"error": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/MissionListResponse"
+					}
+				},
+				"required": [
+					"resultType",
+					"error",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "10th-umc-nodejs",
+		"version": "1.0.0",
+		"description": "UMC 테스트 프로젝트",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/users/signup": {
+			"post": {
+				"operationId": "SignUp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_UserSignUpResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"유저"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserSignUpRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/stores": {
+			"post": {
+				"operationId": "CreateStore",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_StoreCreateResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"가게"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/StoreCreateRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/stores/{storeId}/reviews": {
+			"post": {
+				"operationId": "CreateReview",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_ReviewCreateResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"리뷰"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewCreateRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListStoreReviews",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_ReviewListResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"리뷰"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cursor",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{userId}/reviews": {
+			"get": {
+				"operationId": "ListUserReviews",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_UserReviewListResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"유저 리뷰"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cursor",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/missions": {
+			"post": {
+				"operationId": "ChallengeMission",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_MissionStateCreateResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"미션 상태"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MissionStateCreateRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/missions/{missionId}": {
+			"patch": {
+				"operationId": "ChangeMissionState",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_MissionStateUpdateResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"미션 상태"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "missionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"userId": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"userId"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{userId}/mission": {
+			"get": {
+				"operationId": "ListUserMissions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_UserMissionListResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"유저 미션"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cursor",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/stores/{storeId}/mission": {
+			"post": {
+				"operationId": "CreateMission",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_MissionCreateResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"미션"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MissionCreateRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListStoreMissions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_MissionListResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"미션"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cursor",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
